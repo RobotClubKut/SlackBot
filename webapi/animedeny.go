@@ -21,7 +21,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 	userName := r.PostFormValue("user_name")
 
 	if token == "xEwE8oq4UUm0pMrUsx3bgPGo" {
-		if userName == "testUser" {
+		if userName == "shirase_aoi" {
 			fmt.Fprintf(w, "{\"text\": \""+text+"\"}")
 		}
 	}
