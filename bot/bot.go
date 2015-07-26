@@ -13,6 +13,7 @@ import (
 	"github.com/nlopes/slack"
 )
 
+//Conf struct is used of configure settings
 type Conf struct {
 	Token       string
 	Room        string
@@ -20,13 +21,15 @@ type Conf struct {
 	UnfurlMedia bool
 }
 
+// Data struct is used of NoSub Data seved
 type Data struct {
 	Title    string
-	Url      string
+	URL      string
 	Time     time.Time
-	ImageUrl string
+	ImageURL string
 }
 
+// List is array of data
 type List struct {
 	Data []Data
 }
@@ -36,6 +39,7 @@ func writeErr(err error) {
 	log.Fatalln(err)
 }
 
+// CreateConfigure is make example of configure
 func CreateConfigure() {
 	conf := Conf{Token: "", Room: "", UserName: "", UnfurlMedia: true}
 
@@ -86,6 +90,7 @@ func readDatabase() []Data {
 	return ret
 }
 
+// InitialDatabase is initialized database
 func InitialDatabase() {
 	writeDatabase(getNoSubData())
 }
@@ -131,10 +136,10 @@ func getNoSubData() []Data {
 		imgs, _ := newData.Search(imgsrc)
 		texts, _ := newData.Search(title)
 		for _, url := range urls {
-			ret[i].Url = url.String()
+			ret[i].URL = url.String()
 		}
 		for _, img := range imgs {
-			ret[i].ImageUrl = img.String()
+			ret[i].ImageURL = img.String()
 		}
 		for _, text := range texts {
 			ret[i].Title = text.String()
@@ -147,11 +152,11 @@ func getNoSubData() []Data {
 func createPostData(d Data) string {
 	var ret string
 
-	ret += d.ImageUrl
+	ret += d.ImageURL
 	ret += "\n"
 	ret += d.Title
 	ret += "\n"
-	ret = ret + "[動画URL]: " + d.Url
+	ret = ret + "[動画URL]: " + d.URL
 	ret += "\n"
 	ret += "取得日時: "
 	ret += d.Time.String()
@@ -161,6 +166,7 @@ func createPostData(d Data) string {
 	return ret
 }
 
+// PostNoSubNews is posting nosub news
 func PostNoSubNews(room string) {
 	if room == "" {
 		room = readConfigure().Room
@@ -178,7 +184,6 @@ func PostNoSubNews(room string) {
 		writeErr(err)
 	}
 	for _, channel := range channels {
-		//fmt.Println(channel.Name)
 		if channel.Name == room {
 			fmt.Println(channel.Id)
 			for index := diff(data); index >= 0; index-- {
