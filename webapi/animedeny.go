@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/RobotClubKut/SlackBot/slack"
 )
 
 type Conf struct {
@@ -58,12 +60,24 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 
 	if token == configure.Token {
 		if userName != configure.UserName {
-			fmt.Println("outgoing-webhook: " + configure.UserName)
-			fmt.Println("userName: " + userName)
 			postString := "衝撃の事実. "
 			postString += text
 			postString += "受理できない."
-			fmt.Fprintf(w, "{\"text\": \""+postString+"\"}")
+			attachments := slack.NewAttachments()
+			attachments.Attachments[0].Text = postString
+			js, _ := json.Marshal(attachments)
+			fmt.Println(string(js))
+			fmt.Fprintf(w, string(js))
+
+			/*
+				fmt.Println("outgoing-webhook: " + configure.UserName)
+				fmt.Println("userName: " + userName)
+				postString := "衝撃の事実. "
+				postString += text
+				postString += "受理できない."
+				fmt.Fprintf(w, "{\"text\": \""+postString+"\"}")
+			*/
+
 		}
 	}
 }

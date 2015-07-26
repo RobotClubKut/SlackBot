@@ -24,3 +24,30 @@ type Attachment struct {
 type Attachments struct {
 	Attachments []Attachment
 }
+
+func NewAttachments() *Attachments {
+	field := Field{
+		Title: "",
+		Value: "",
+		Short: false,
+	}
+	fields := make([]Field, 1)
+	fields[0] = field
+	attachment := Attachment{
+		Fallback:   "",
+		Color:      "#36a64f",
+		Pretext:    "",
+		AuthorName: "",
+		AuthorLink: "",
+		AuthorIcon: "",
+		Title:      "",
+		TitleLink:  "",
+		Text:       "",
+		Fields:     fields,
+		ImageUrl:   "",
+		ThumbUrl:   "",
+	}
+	var attachments Attachments
+	attachments.Attachments[0] = attachment
+	return &attachments
+}
