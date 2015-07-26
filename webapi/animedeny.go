@@ -16,5 +16,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func animedeny(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "{\"text\": \"test\"}")
+	postText := r.PostFormValue("text")
+	fmt.Fprintf(w, "{\"text\": \""+postText+"\"}")
 }
