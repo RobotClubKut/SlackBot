@@ -58,7 +58,8 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 
 	if token == configure.Token {
 		if userName != configure.UserName {
-			fmt.Println(configure.UserName)
+			fmt.Println("outgoing-webhook: " + configure.UserName)
+			fmt.Println("userName: " + userName)
 			postString := "衝撃の事実. "
 			postString += text
 			postString += "受理できない."
