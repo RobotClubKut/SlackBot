@@ -11,6 +11,8 @@ import (
 func main() {
 	i := flag.Bool("i", false, "初期化するかどうか")
 	t := flag.Int64("t", 7, "更新時間")
+	webapi.CreateConfExample()
+
 	flag.Parse()
 	if *i {
 		bot.InitialDatabase()

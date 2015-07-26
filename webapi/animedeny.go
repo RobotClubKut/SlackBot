@@ -1,9 +1,29 @@
 package webapi
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 )
+
+type Conf struct {
+	Token    string
+	UserName string
+}
+
+func CreateConfExample() {
+	c := Conf{Token: "", UserName: ""}
+	js, err := json.Marshal(c)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = ioutil.WriteFile("../conf/webapi_configure-example.json", js, 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
 
 func ViewWebApi() {
 	http.HandleFunc("/animedeny", animedeny)
