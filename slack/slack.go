@@ -48,6 +48,7 @@ func NewAttachments() *Attachments {
 		ThumbUrl:   "",
 	}
 	var attachments Attachments
+	attachments.Attachments = make([]Attachment, 1)
 	attachments.Attachments[0] = attachment
 	return &attachments
 }
