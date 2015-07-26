@@ -16,6 +16,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func animedeny(w http.ResponseWriter, r *http.Request) {
-	postText := r.PostFormValue("text")
-	fmt.Fprintf(w, "{\"text\": \""+postText+"\"}")
+	text := r.PostFormValue("text")
+	token := r.PostFormValue("token")
+	userName := r.PostFormValue("user_name")
+
+	if token == "xEwE8oq4UUm0pMrUsx3bgPGo" {
+		if userName == "testUser" {
+			fmt.Fprintf(w, "{\"text\": \""+text+"\"}")
+		}
+	}
 }
