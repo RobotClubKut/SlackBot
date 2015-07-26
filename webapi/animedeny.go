@@ -25,6 +25,21 @@ func CreateConfExample() {
 	}
 }
 
+func ReadConfigure() *Conf {
+	var ret Conf
+
+	js, err := ioutil.ReadFile("../conf/webapi_configure.json")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = json.Unmarshal(js, &ret)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return &ret
+}
+
 func ViewWebApi() {
 	http.HandleFunc("/animedeny", animedeny)
 	http.HandleFunc("/", home)
@@ -39,10 +54,14 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 	text := r.PostFormValue("text")
 	token := r.PostFormValue("token")
 	userName := r.PostFormValue("user_name")
+	configure := ReadConfigure()
 
-	if token == "xEwE8oq4UUm0pMrUsx3bgPGo" {
-		if userName == "shirase_aoi" {
-			fmt.Fprintf(w, "{\"text\": \""+text+"\"}")
+	if token == configure.Token {
+		if userName != configure.UserName {
+			postString := "衝撃の事実. \n"
+			postString += text
+			postString += "受理できない.\n"
+			fmt.Fprintf(w, "{\"text\": \""+postString+"\"}")
 		}
 	}
 }
