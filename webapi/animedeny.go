@@ -14,7 +14,7 @@ type Conf struct {
 }
 
 func CreateConfExample() {
-	c := Conf{Token: "", UserName: ""}
+	c := Conf{Token: "", UserName: "slackbot"}
 	js, err := json.Marshal(c)
 	if err != nil {
 		log.Fatalln(err)
