@@ -58,6 +58,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 
 	if token == configure.Token {
 		if userName != configure.UserName {
+			fmt.Println(configure.UserName)
 			postString := "衝撃の事実. \n"
 			postString += text
 			postString += "受理できない.\n"
