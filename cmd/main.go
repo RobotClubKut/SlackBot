@@ -4,8 +4,8 @@ import (
 	"flag"
 	"time"
 
+	"github.com/RobotClubKut/SlackBot/bot"
 	"github.com/RobotClubKut/SlackBot/webapi"
-	"github.com/RobotClubKut/slack/bot"
 )
 
 func main() {
