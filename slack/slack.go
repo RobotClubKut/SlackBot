@@ -37,7 +37,7 @@ func NewAttachments() *Attachments {
 		Fallback:   "",
 		Color:      "#36a64f",
 		Pretext:    "",
-		AuthorName: "",
+		AuthorName: "anime-ifomation",
 		AuthorLink: "",
 		AuthorIcon: "",
 		Title:      "",
