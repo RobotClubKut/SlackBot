@@ -13,6 +13,7 @@ func main() {
 
 	i := flag.Bool("i", false, "初期化するかどうか")
 	t := flag.Int64("t", 7, "更新時間")
+	p := flag.String("p", "8080", "port")
 
 	flag.Parse()
 	if *i {
@@ -32,7 +33,7 @@ func main() {
 		ch0 <- true
 	}()
 	go func() {
-		webapi.ViewWebApi()
+		webapi.ViewWebApi(*p)
 		ch1 <- true
 	}()
 	<-ch0

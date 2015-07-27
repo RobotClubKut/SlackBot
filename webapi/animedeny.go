@@ -44,10 +44,10 @@ func ReadConfigure() *Conf {
 	return &ret
 }
 
-func ViewWebApi() {
+func ViewWebApi(port string) {
 	http.HandleFunc("/animedeny", animedeny)
 	http.HandleFunc("/", home)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
