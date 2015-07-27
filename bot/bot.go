@@ -92,10 +92,10 @@ func readDatabase() []Data {
 
 // InitialDatabase is initialized database
 func InitialDatabase() {
-	writeDatabase(getNoSubData())
+	writeDatabase(GetNoSubData())
 }
 
-func diff(data []Data) int {
+func Diff(data []Data) int {
 	oldData := readDatabase()
 	index := 0
 	for i, d := range data {
@@ -110,7 +110,7 @@ func diff(data []Data) int {
 	return index - 1
 }
 
-func getNoSubData() []Data {
+func GetNoSubData() []Data {
 	resp, err := http.Get("http://www.nosub.tv/channel/anime/on_air")
 	if err != nil {
 		writeErr(err)
@@ -172,7 +172,7 @@ func PostNoSubNews(room string) {
 		room = readConfigure().Room
 	}
 
-	data := getNoSubData()
+	data := GetNoSubData()
 
 	api := slack.New(readConfigure().Token)
 	var param slack.PostMessageParameters
@@ -186,7 +186,7 @@ func PostNoSubNews(room string) {
 	for _, channel := range channels {
 		if channel.Name == room {
 			fmt.Println(channel.Id)
-			for index := diff(data); index >= 0; index-- {
+			for index := Diff(data); index >= 0; index-- {
 				info := createPostData(data[index])
 				api.PostMessage(channel.Id, info, param)
 			}
