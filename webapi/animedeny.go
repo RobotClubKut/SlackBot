@@ -62,6 +62,13 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 
 	if token == configure.Token {
 		if userName != configure.UserName {
+			confJs, err := ioutil.ReadFile("../conf/incoming_webhooks_configure.json")
+			if err != nil {
+				log.Fatalln(err)
+			}
+			var conf slack.Conf
+			json.Unmarshal(confJs, &conf)
+
 			attachments := slack.NewAttachments(1)
 			attachments.Attachments[0].Text = text
 			js, _ := json.Marshal(attachments)
@@ -70,14 +77,14 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 			client := &http.Client{}
 			data := url.Values{"payload": {string(js)}}
 			resp, _ := client.Post(
-				"https://hooks.slack.com/services/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",
+				conf.ApiURL,
 				"application/x-www-form-urlencoded",
 				strings.NewReader(data.Encode()),
 			)
 			ioutil.ReadAll(resp.Body)
 			defer resp.Body.Close()
 
-			fmt.Fprintf(w, "")
+			fmt.Fprintf(w, "hoge")
 
 			/*
 				fmt.Println("outgoing-webhook: " + configure.UserName)
