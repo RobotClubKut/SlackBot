@@ -70,7 +70,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(confJs, &conf)
 
 			attachments := slack.NewAttachments(1)
-			if strings.Contains(text, "deny:") {
+			if strings.HasPrefix(text, "deny:") {
 				text = "true"
 			} else {
 				text = "false"
