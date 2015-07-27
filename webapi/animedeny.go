@@ -62,7 +62,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 
 	if token == configure.Token {
 		if userName != configure.UserName {
-			attachments := slack.NewAttachments()
+			attachments := slack.NewAttachments(1)
 			attachments.Attachments[0].Text = text
 			js, _ := json.Marshal(attachments)
 			fmt.Println(string(js))
@@ -92,6 +92,3 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
-
-//curl -F 'payload={"channel": "#bot-test", "username": "webhookbot", "text": "This is posted to #bot-test and comes from a bot named webhookbot.", "icon_emoji": ":ghost:"}' -F 'attachments={"attachments":[{"fallback":"","color":"#36a64f","pretext":"","author_name":"","author_link":"","author_icon":"","title":"","title_link":"","text":"衝撃の事実. にゃんぱすなのん受理できない.","fields":[{"title":"","value":"","short":false}],"image_url":"","thumb_url":""}]}' https://hooks.slack.com/services/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
-//curl -F 'payload={"attachments":[{"fallback":"","color":"#000000","pretext":"","author_name":"","author_link":"","author_icon":"","title":"","title_link":"","text":"衝撃の事実. にゃんぱすなのん受理できない.","fields":[{"title":"","value":"","short":false}],"image_url":"","thumb_url":""}]}' https://hooks.slack.com/services/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
