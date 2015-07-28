@@ -96,7 +96,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 			attachments := slack.NewAttachments(1)
 			if strings.HasPrefix(text, "deny:") {
 				//text = "true: "
-				str := strings.TrimLeft(strings.TrimSpace(text), "deny:")
+				str := strings.Trim(strings.Trim(text, " "), "deny:")
 				strList := strings.Split(str, ",")
 
 				addDenyDB(strList)
