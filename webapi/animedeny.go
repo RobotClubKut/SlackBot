@@ -100,15 +100,21 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 				fmt.Println("str: " + str)
 				strList := strings.Split(str, " ")
 				var denyList []string
+				text = ""
 				for _, s := range strList {
 					if s != "" {
+						text = text + s + " "
 						denyList = append(denyList, s)
 					}
 				}
-				fmt.Println("denyList:", denyList)
+				if text == "" {
+					text = text + "を受理したのん"
+				} else {
+					text = "nilぱすー"
+				}
 				addDenyDB(denyList)
 			} else {
-				text = "false"
+				text = ""
 			}
 			attachments.Attachments[0].Text = text
 			js, _ := json.Marshal(attachments)
