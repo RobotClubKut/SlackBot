@@ -97,11 +97,16 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 			if strings.HasPrefix(text, "deny:") {
 				//text = "true: "
 				str := strings.Trim(text, "deny:")
-				str = strings.Trim(str, " ")
 				fmt.Println("str: " + str)
-				strList := strings.Split(str, ",")
-
-				addDenyDB(strList)
+				strList := strings.Split(str, " ")
+				var denyList []string
+				for _, s := range strList {
+					if s != "" {
+						denyList = append(denyList, s)
+					}
+				}
+				fmt.Println("denyList:", denyList)
+				addDenyDB(denyList)
 			} else {
 				text = "false"
 			}
