@@ -61,7 +61,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 func addDenyDB(str []string) {
 	r, err := ioutil.ReadFile("../database/deny.db")
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	var readList DenyList
 	err = json.Unmarshal(r, &readList)
@@ -88,7 +88,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 		if userName != configure.UserName {
 			confJs, err := ioutil.ReadFile("../conf/incoming_webhooks_configure.json")
 			if err != nil {
-				log.Println(err)
+				log.Fatalln(err)
 			}
 			var conf slack.Conf
 			json.Unmarshal(confJs, &conf)
