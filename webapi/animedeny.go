@@ -107,7 +107,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 						denyList = append(denyList, s)
 					}
 				}
-				if text == "" {
+				if text != "" {
 					text = text + "を受理したのん"
 				} else {
 					text = "nilぱすー"
@@ -116,19 +116,23 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 			} else {
 				text = ""
 			}
-			attachments.Attachments[0].Text = text
-			js, _ := json.Marshal(attachments)
-			//fmt.Println(string(js))
 
-			client := &http.Client{}
-			data := url.Values{"payload": {string(js)}}
-			resp, _ := client.Post(
-				conf.ApiURL,
-				"application/x-www-form-urlencoded",
-				strings.NewReader(data.Encode()),
-			)
-			ioutil.ReadAll(resp.Body)
-			defer resp.Body.Close()
+			//textに文字が入っている時投稿
+			if text != "" {
+				attachments.Attachments[0].Text = text
+				js, _ := json.Marshal(attachments)
+				//fmt.Println(string(js))
+
+				client := &http.Client{}
+				data := url.Values{"payload": {string(js)}}
+				resp, _ := client.Post(
+					conf.ApiURL,
+					"application/x-www-form-urlencoded",
+					strings.NewReader(data.Encode()),
+				)
+				ioutil.ReadAll(resp.Body)
+				defer resp.Body.Close()
+			}
 
 			fmt.Fprintf(w, "")
 
