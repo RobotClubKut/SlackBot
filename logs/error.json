@@ -1,1 +1,9 @@
-{"Errors":[{"Time":"2015-07-29 00:27:11.018815848 +0900 JST","Error":"open test.go: no such file or directory","Message":""}]}
+{
+    "Errors": [
+        {
+            "Time": "2015-07-29 00:27:11.018815848 +0900 JST",
+            "Error": "open test.go: no such file or directory",
+            "Message": ""
+        }
+    ]
+}

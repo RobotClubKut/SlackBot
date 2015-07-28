@@ -12,8 +12,3 @@ SlackBotを作るための道具たち
 * CentOS 7
 
 ## 使い方
-* configure-example.jsonをconfigure.jsonにリネームする
-* configure.jsonのToken、Room、UserNameを設定する
-    * Token: SlackのToken
-    * Room: 投稿したい部屋の名前
-    * UserName: botが投稿するときのユーザー名
