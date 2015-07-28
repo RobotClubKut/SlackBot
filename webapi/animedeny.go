@@ -88,7 +88,7 @@ func animedeny(w http.ResponseWriter, r *http.Request) {
 		if userName != configure.UserName {
 			confJs, err := ioutil.ReadFile("../conf/incoming_webhooks_configure.json")
 			if err != nil {
-				log.Fatalln(err)
+				log.Println(err)
 			}
 			var conf slack.Conf
 			json.Unmarshal(confJs, &conf)
