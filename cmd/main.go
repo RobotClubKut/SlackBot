@@ -8,5 +8,6 @@ import (
 
 func main() {
 	_, err := ioutil.ReadFile("test.go")
-	log.WriteErrorLogAndMessage(err, "test")
+	//log.WriteErrorLogAndMessage(err, "test")
+	log.Terminate(err)
 }

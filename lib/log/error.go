@@ -5,6 +5,7 @@ package log
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"time"
 )
 
@@ -22,22 +23,19 @@ type ErrorData struct {
 
 //WriteErrorLog is output err log.
 func WriteErrorLog(err error) {
-	fileName := "../logs/error.json"
-	bufError := ReadErrorLog()
-	errData := Error{Time: time.Now().String(), Error: err.Error(), Message: ""}
-	var w ErrorData
-	if bufError == nil {
-		var errors ErrorData
-		errors.Errors = append(errors.Errors, errData)
-		w = errors
+	WriteErrorLogAndMessage(err, "")
+}
 
-	} else {
-		bufError.Errors = append(bufError.Errors, errData)
-		w = *bufError
-	}
+//Terminate is abnormal exit.
+func Terminate(err error) {
+	WriteErrorLog(err)
+	log.Fatalln(err)
+}
 
-	js, _ := json.Marshal(w)
-	ioutil.WriteFile(fileName, js, 0644)
+//TerminateAndWriteMessage is abnormal exit.
+func TerminateAndWriteMessage(err error, msg string) {
+	WriteErrorLogAndMessage(err, msg)
+	log.Fatalln(err)
 }
 
 //WriteErrorLogAndMessage is output err log.
