@@ -42,7 +42,6 @@ func TerminateAndWriteMessage(err error, msg string) {
 		WriteErrorLogAndMessage(err, msg)
 		log.Fatalln(err)
 	}
-
 }
 
 //WriteErrorLogAndMessage is output err log.

@@ -3,9 +3,12 @@ package nosub
 import (
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 
+	"github.com/RobotClubKut/SlackBot/lib/conf"
 	"github.com/RobotClubKut/SlackBot/lib/log"
+	"github.com/couchbase/go-couchbase"
 	"github.com/moovweb/gokogiri"
 	"github.com/moovweb/gokogiri/xpath"
 )
@@ -56,5 +59,30 @@ func GetNosubUpdate() []Data {
 		}
 		ret[i].Time = time.Now()
 	}
+	return ret
+}
+
+// GetAnimeData is Select anime data
+func GetAnimeData(key string) []Data {
+	conf := conf.ReadConfigure()
+	var loginInfo string
+	if conf.DB.UserName != "" {
+		loginInfo = "http://" + conf.DB.UserName + ":" + conf.DB.Password + "@" + conf.DB.ServerName + ":" + strconv.Itoa(conf.DB.Port)
+	} else {
+		loginInfo = "http://" + conf.DB.ServerName + ":" + strconv.Itoa(conf.DB.Port)
+	}
+
+	c, err := couchbase.Connect(loginInfo)
+	log.Terminate(err)
+	pool, err := c.GetPool(conf.DB.Pool)
+	log.Terminate(err)
+
+	bucket, err := pool.GetBucket(conf.DB.DBName)
+	log.Terminate(err)
+
+	var ret []Data
+	err = bucket.Get(key, &ret)
+	log.WriteErrorLog(err)
+
 	return ret
 }

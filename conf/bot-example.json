@@ -1,1 +1,1 @@
-{"db_configure":{"server_name":"localhost","port":5984,"user_name":"","password":""}}
+{"db_configure":{"server_name":"localhost","port":8901,"Pool":"default","db_name":"slack_bot","user_name":"","password":""}}
