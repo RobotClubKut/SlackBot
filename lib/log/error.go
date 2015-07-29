@@ -23,26 +23,37 @@ type ErrorData struct {
 
 //WriteErrorLog is output err log.
 func WriteErrorLog(err error) {
-	WriteErrorLogAndMessage(err, "")
+	if err != nil {
+		WriteErrorLogAndMessage(err, "")
+	}
 }
 
 //Terminate is abnormal exit.
 func Terminate(err error) {
-	WriteErrorLog(err)
-	log.Fatalln(err)
+	if err != nil {
+		WriteErrorLog(err)
+		log.Fatalln(err)
+	}
 }
 
 //TerminateAndWriteMessage is abnormal exit.
 func TerminateAndWriteMessage(err error, msg string) {
-	WriteErrorLogAndMessage(err, msg)
-	log.Fatalln(err)
+	if err != nil {
+		WriteErrorLogAndMessage(err, msg)
+		log.Fatalln(err)
+	}
+
 }
 
 //WriteErrorLogAndMessage is output err log.
 func WriteErrorLogAndMessage(err error, msg string) {
+	if err == nil {
+		return
+	}
 	fileName := "../logs/error.json"
 	bufError := ReadErrorLog()
 	errData := Error{Time: time.Now().String(), Error: err.Error(), Message: msg}
+	errData.Time = time.Now().String()
 	var w ErrorData
 	if bufError == nil {
 		var errors ErrorData

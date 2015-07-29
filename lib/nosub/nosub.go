@@ -21,13 +21,13 @@ type Data struct {
 // GetNosubUpdate is get NoSub update
 func GetNosubUpdate() []Data {
 	resp, err := http.Get("http://www.nosub.tv/channel/anime/on_air")
-	log.TerminateAndWriteMessage(err, "can not access NoSub.")
+	log.Terminate(err)
 
 	page, err := ioutil.ReadAll(resp.Body)
-	log.TerminateAndWriteMessage(err, "can not read page.")
+	log.Terminate(err)
 
 	doc, err := gokogiri.ParseHtml(page)
-	log.TerminateAndWriteMessage(err, "can not parse html.")
+	log.Terminate(err)
 
 	defer doc.Free()
 	xps := xpath.Compile("//body/div/div[@class='content']/div[@class='margin_bottom']/div[@class='content_710 cat cat_sub']/ul/li")

@@ -1,9 +1,1 @@
-{
-    "Errors": [
-        {
-            "Time": "2015-07-29 00:27:11.018815848 +0900 JST",
-            "Error": "open test.go: no such file or directory",
-            "Message": ""
-        }
-    ]
-}
+{"Errors":[{"Time":"2015-07-29 00:27:11.018815848 +0900 JST","Error":"open test.go: no such file or directory","Message":""},{"Time":"2015-07-29 09:02:55.027668381 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:03:50.310855627 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:05:39.359380441 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:05:56.116425382 +0900 JST","Error":"open test.go: no such file or directory","Message":"test"},{"Time":"2015-07-29 09:07:09.047714591 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:10:11.399795997 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:10:19.497597388 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"2015-07-29 09:10:33.323820621 +0900 JST","Error":"open test.go: no such file or directory","Message":"hoge"},{"Time":"","Error":"","Message":""},{"Time":"2015-07-29 09:26:20.146629204 +0900 JST","Error":"","Message":""}]}
