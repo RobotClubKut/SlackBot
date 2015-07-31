@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/RobotClubKut/SlackBot/lib/mysql"
@@ -13,6 +14,7 @@ func main() {
 	chWebAPI := make(chan bool)
 	go func() {
 		for {
+			fmt.Println("update nosub data.")
 			slack.PostAnimeInfomation(mysql.CreatePostNoSubData())
 			time.Sleep(10 * time.Minute)
 		}

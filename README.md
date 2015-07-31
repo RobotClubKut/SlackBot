@@ -3,6 +3,9 @@ SlackBotを作るための道具たち
 ## LICENSE
 * MIT LICENSE
 
+## 必要ライブラリ
+* libxml2
+
 ## 機能
 * Slackのbot機能
 
