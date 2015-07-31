@@ -1,0 +1,19 @@
+CREATE TABLE nosub_new(
+    ID INT primary key AUTO_INCREMENT,
+    Title TEXT,
+    URL TEXT,
+    ImageURL TEXT,
+    Time TEXT
+);
+
+CREATE TABLE nosub_deny_word (
+    ID INT primary key AUTO_INCREMENT,
+    Word TEXT
+);
+
+select *
+    FROM nosub_new
+        WHERE Title LIKE (IN (SELECT Word From nosub_deny_word));
+
+
+DELETE FROM nosub_deny_word WHERE ID in ( SELECT ID FROM (SELECT ID FROM nosub_deny_word GROUP BY Word HAVING COUNT(*) >= 2) AS x )

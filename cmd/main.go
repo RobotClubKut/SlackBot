@@ -1,16 +1,26 @@
 package main
 
 import (
-	"github.com/RobotClubKut/SlackBot/lib/couchbase"
-	"github.com/RobotClubKut/SlackBot/lib/nosub"
+	"fmt"
+
+	"github.com/RobotClubKut/SlackBot/lib/mysql"
 )
 
 func main() {
 	//_, err := ioutil.ReadFile("test.go")
 	//log.TerminateAndWriteMessage(err, "hoge")
-	noSub := nosub.GetNosubUpdate()
+
+	//noSub := nosub.GetNosubUpdate()
+	//mysql.InsertNoSubData(noSub)
 	//js, _ := json.Marshal(n)
 	//fmt.Println(string(js))
 	//nosub.GetAnimeData("slack_bot")
-	couchbase.InsertDataBase(noSub)
+	//couchbase.InsertDataBase(noSub)
+
+	//var word []string
+	//word = append(word, "test")
+	//word = append(word, "にゃんぱす")
+	//mysql.InsertDenyWord(word)
+
+	fmt.Println(mysql.GetAnimeMostNewAnime())
 }
