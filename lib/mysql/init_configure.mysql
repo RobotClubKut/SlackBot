@@ -17,7 +17,7 @@ CREATE TABLE nosub_new_buf (
     URL TEXT,
     ImageURL TEXT,
     Time TEXT
-)
+);
 
 select *
     FROM nosub_new

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/RobotClubKut/SlackBot/lib/mysql"
 	"github.com/RobotClubKut/SlackBot/lib/slack"
 )
@@ -33,5 +35,14 @@ func main() {
 			fmt.Println(d)
 		}
 	*/
-	slack.PostAnimeInfomation(mysql.CreatePostNoSubData())
+	ch := make(chan bool)
+	go func() {
+		for {
+			slack.PostAnimeInfomation(mysql.CreatePostNoSubData())
+			time.Sleep(10 * time.Minute)
+		}
+
+		ch <- true
+	}()
+	<-ch
 }
