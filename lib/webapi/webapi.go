@@ -25,11 +25,14 @@ func deny(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("user name:", configure.OutgoingSlackConf.UserName != userName)
 	if strings.Contains(text, "deny:") && configure.OutgoingSlackConf.Token == token && configure.OutgoingSlackConf.UserName != userName {
 		fmt.Println("catch")
-		text = strings.Replace(text, "deny:", "", 0)
+		text = strings.Replace(text, "deny:", " ", 0)
 		fmt.Println("deny 除去", text)
-		text = strings.Replace(text, " ", "", 0)
-		fmt.Println("space 除去", text)
 		words := strings.Split(text, ":")
+		var buf []string
+		for _, w := range words {
+			buf = append(buf, strings.Split(w, " ")...)
+		}
+		words = buf
 		fmt.Println("words:", words)
 		mysql.InsertDenyWord(words)
 		//postText := "{\"text\":\"" +  + ""\"}"
