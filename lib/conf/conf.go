@@ -11,11 +11,12 @@ import (
 
 // Configure is configures
 type Configure struct {
-	DB DataBase `json:"db_configure"`
+	CB        CouchBase `json:"couchbase_configure"`
+	MysqlConf Mysql     `json:"mysql_configure"`
 }
 
-// DataBase setting
-type DataBase struct {
+// CouchBase setting
+type CouchBase struct {
 	ServerName string `json:"server_name"`
 	Port       int    `json:"port"`
 	Pool       string
@@ -24,15 +25,41 @@ type DataBase struct {
 	Password   string `json:"password"`
 }
 
+//Mysql setting
+type Mysql struct {
+	ServerName string `json:"server_name"`
+	Port       string `json:"port"`
+	DBName     string `json:"db_name"`
+	UserName   string `json:"user_name"`
+	Password   string `json:"password"`
+}
+
 // NewCoufigure is init configure
 func NewCoufigure() *Configure {
 	return &Configure{
-		DB: *newDataBase("localhost", 8091, "default", "slack_bot", "", ""),
+		CB:        *newCouchBase("localhost", 8091, "", "", "", ""),
+		MysqlConf: *newMysql("localhost", "3306", "", "", ""),
 	}
 }
 
-func newDataBase(serverName string, port int, pool string, dbName string, userName string, password string) *DataBase {
-	return &DataBase{
+func newMysql(
+	serverName string,
+	port string,
+	dbName string,
+	userName string,
+	password string,
+) *Mysql {
+	return &Mysql{
+		ServerName: serverName,
+		Port:       port,
+		DBName:     dbName,
+		UserName:   userName,
+		Password:   password,
+	}
+}
+
+func newCouchBase(serverName string, port int, pool string, dbName string, userName string, password string) *CouchBase {
+	return &CouchBase{
 		ServerName: serverName,
 		Port:       port,
 		Pool:       pool,

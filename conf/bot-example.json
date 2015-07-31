@@ -1,1 +1,17 @@
-{"db_configure":{"server_name":"localhost","port":8901,"Pool":"default","db_name":"slack_bot","user_name":"","password":""}}
+{
+    "couchbase_configure": {
+        "server_name": "localhost",
+        "port": 8091,
+        "Pool": "",
+        "db_name": "",
+        "user_name": "",
+        "password": ""
+    },
+    "mysql_configure": {
+        "server_name": "localhost",
+        "port": "3306",
+        "db_name": "",
+        "user_name": "",
+        "password": ""
+    }
+}

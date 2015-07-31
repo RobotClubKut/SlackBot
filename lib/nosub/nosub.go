@@ -3,22 +3,19 @@ package nosub
 import (
 	"io/ioutil"
 	"net/http"
-	"strconv"
 	"time"
 
-	"github.com/RobotClubKut/SlackBot/lib/conf"
 	"github.com/RobotClubKut/SlackBot/lib/log"
-	"github.com/couchbase/go-couchbase"
 	"github.com/moovweb/gokogiri"
 	"github.com/moovweb/gokogiri/xpath"
 )
 
 // Data struct is used of NoSub Data seved
 type Data struct {
-	Title    string
-	URL      string
-	Time     time.Time
-	ImageURL string
+	Title    string `json:"title"`
+	URL      string `json:"URL"`
+	Time     string `json:"time"`
+	ImageURL string `json:"imageURL"`
 }
 
 // GetNosubUpdate is get NoSub update
@@ -57,32 +54,8 @@ func GetNosubUpdate() []Data {
 		for _, text := range texts {
 			ret[i].Title = text.String()
 		}
-		ret[i].Time = time.Now()
+		ret[i].Time = time.Now().String()
+
 	}
-	return ret
-}
-
-// GetAnimeData is Select anime data
-func GetAnimeData(key string) []Data {
-	conf := conf.ReadConfigure()
-	var loginInfo string
-	if conf.DB.UserName != "" {
-		loginInfo = "http://" + conf.DB.UserName + ":" + conf.DB.Password + "@" + conf.DB.ServerName + ":" + strconv.Itoa(conf.DB.Port)
-	} else {
-		loginInfo = "http://" + conf.DB.ServerName + ":" + strconv.Itoa(conf.DB.Port)
-	}
-
-	c, err := couchbase.Connect(loginInfo)
-	log.Terminate(err)
-	pool, err := c.GetPool(conf.DB.Pool)
-	log.Terminate(err)
-
-	bucket, err := pool.GetBucket(conf.DB.DBName)
-	log.Terminate(err)
-
-	var ret []Data
-	err = bucket.Get(key, &ret)
-	log.WriteErrorLog(err)
-
 	return ret
 }
