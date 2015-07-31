@@ -54,7 +54,7 @@ func deny(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("words:", words)
 			mysql.InsertDenyWord(words)
 			//postText := "{\"text\":\"" +  + ""\"}"
-			postText = "{\"text\":\""
+			postText = "{\"text\":\"次のリストを受理したのん,: "
 			for _, w := range words {
 				if w != "" {
 					postText += w
