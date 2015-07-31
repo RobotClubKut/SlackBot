@@ -47,5 +47,6 @@ func deny(w http.ResponseWriter, r *http.Request) {
 func ViewWebPage() {
 	configure := conf.ReadConfigure()
 	http.HandleFunc("/", home)
+	http.HandleFunc("/deny", deny)
 	http.ListenAndServe(":"+configure.OutgoingSlackConf.Port, nil)
 }
