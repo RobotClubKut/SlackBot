@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"strconv"
 
 	"github.com/RobotClubKut/SlackBot/lib/conf"
 	"github.com/RobotClubKut/SlackBot/lib/log"
@@ -67,6 +68,20 @@ func InsertNoSubBufData(data []nosub.Data) {
 	log.Terminate(err)
 }
 
+func eraseNoSubBufData() {
+	configure := conf.ReadConfigure()
+	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
+	db, err := sql.Open("mysql", server)
+	log.Terminate(err)
+	defer db.Close()
+
+	sqlStr := "DELETE FROM nosub_new_buf"
+	stmt, err := db.Prepare(sqlStr)
+	log.WriteErrorLog(err)
+	_, err = stmt.Exec()
+	log.WriteErrorLog(err)
+}
+
 // DiffNoSubData 前回の最後の更新の動画のIdを取得
 func DiffNoSubData(title string) int {
 	configure := conf.ReadConfigure()
@@ -118,6 +133,29 @@ func GetAnimeMostNewAnime() string {
 	}()
 }
 
+//denyのリストを取得
+func getDenyList() []string {
+	configure := conf.ReadConfigure()
+	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
+	db, err := sql.Open("mysql", server)
+	log.Terminate(err)
+	defer db.Close()
+
+	sqlStr := "SELECT Word FROM nosub_deny_word"
+	rows, err := db.Query(sqlStr)
+	log.WriteErrorLog(err)
+	var ret []string
+	for rows.Next() {
+		var buf string
+		if err := rows.Scan(&buf); err != nil {
+			log.WriteErrorLog(err)
+		}
+		ret = append(ret, buf)
+	}
+	return ret
+}
+
+//ダブリを消す
 func deleteRedundancy() {
 	configure := conf.ReadConfigure()
 	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
@@ -153,4 +191,41 @@ func InsertDenyWord(w []string) {
 	_, err = stmt.Exec(values...)
 	deleteRedundancy()
 	log.Terminate(err)
+}
+
+func CreatePostNoSubData() []nosub.Data {
+	configure := conf.ReadConfigure()
+	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
+	db, err := sql.Open("mysql", server)
+	log.Terminate(err)
+	defer db.Close()
+
+	noSubUpdate := nosub.GetNosubUpdate()
+	InsertNoSubBufData(noSubUpdate)
+	pastTitle := GetAnimeMostNewAnime()
+	diffID := DiffNoSubData(pastTitle)
+	denyWordList := getDenyList()
+
+	sqlStr := "SELECT Title, URL, ImageURL, Time FROM nosub_new_buf WHERE ID > " + strconv.Itoa(diffID)
+	denyQuery := ""
+
+	for _, s := range denyWordList {
+		denyQuery = denyQuery + " AND Title NOT LIKE '%" + s + "%'"
+	}
+
+	sqlStr += denyQuery
+	rows, err := db.Query(sqlStr)
+	log.WriteErrorLog(err)
+	var ret []nosub.Data
+	for rows.Next() {
+		var buf nosub.Data
+		if err := rows.Scan(&buf.Title, &buf.URL, &buf.ImageURL, &buf.Time); err != nil {
+			log.WriteErrorLog(err)
+		}
+		ret = append(ret, buf)
+	}
+	InsertNoSubData(noSubUpdate)
+	eraseNoSubBufData()
+
+	return ret
 }

@@ -28,5 +28,8 @@ func main() {
 	//js, _ := json.Marshal(a)
 	//slack.Post(string(js))
 	//mysql.InsertNoSubBufData(noSub)
-	fmt.Println(mysql.DiffNoSubData("[720p]だんちがい 第04話 「四号棟 カレーライス」"))
+	//fmt.Println(mysql.DiffNoSubData("[720p]だんちがい 第04話 「四号棟 カレーライス」"))
+	for _, d := range mysql.CreatePostNoSubData() {
+		fmt.Println(d)
+	}
 }
