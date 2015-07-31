@@ -14,8 +14,13 @@
         "user_name": "",
         "password": ""
     },
-    "slack_configure": {
+    "incoming_slack_configure": {
         "token": "",
+        "user_name": "slackbot"
+    },
+    "outgoing_slack_configure": {
+        "token": "",
+        "port": "9000",
         "user_name": "slackbot"
     }
 }

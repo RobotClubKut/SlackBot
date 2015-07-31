@@ -11,9 +11,10 @@ import (
 
 // Configure is configures
 type Configure struct {
-	CB        CouchBase `json:"couchbase_configure"`
-	MysqlConf Mysql     `json:"mysql_configure"`
-	SlackConf Slack     `json:"slack_configure"`
+	CB                CouchBase     `json:"couchbase_configure"`
+	MysqlConf         Mysql         `json:"mysql_configure"`
+	IncomingSlackConf IncomingSlack `json:"incoming_slack_configure"`
+	OutgoingSlackConf OutgoingSlack `json:"outgoing_slack_configure"`
 }
 
 // CouchBase setting
@@ -35,23 +36,35 @@ type Mysql struct {
 	Password   string `json:"password"`
 }
 
-//Slack setting
-type Slack struct {
+//IncomingSlack setting
+type IncomingSlack struct {
 	Token    string `json:"token"`
+	UserName string `json:"user_name"`
+}
+
+//OutgoingSlack setting
+type OutgoingSlack struct {
+	Token    string `json:"token"`
+	Port     string `json:"port"`
 	UserName string `json:"user_name"`
 }
 
 // NewCoufigure is init configure
 func NewCoufigure() *Configure {
 	return &Configure{
-		CB:        *newCouchBase("localhost", 8091, "", "", "", ""),
-		MysqlConf: *newMysql("localhost", "3306", "", "", ""),
-		SlackConf: *newSlack("", "slackbot"),
+		CB:                *newCouchBase("localhost", 8091, "", "", "", ""),
+		MysqlConf:         *newMysql("localhost", "3306", "", "", ""),
+		IncomingSlackConf: *newIncomingSlack("", "slackbot"),
+		OutgoingSlackConf: *newOutgoingSlack("", "9000", "slackbot"),
 	}
 }
 
-func newSlack(token string, userName string) *Slack {
-	return &Slack{Token: token, UserName: userName}
+func newOutgoingSlack(token string, port string, userName string) *OutgoingSlack {
+	return &OutgoingSlack{Token: token, Port: port, UserName: userName}
+}
+
+func newIncomingSlack(token string, userName string) *IncomingSlack {
+	return &IncomingSlack{Token: token, UserName: userName}
 }
 
 func newMysql(

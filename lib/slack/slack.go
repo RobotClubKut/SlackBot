@@ -69,7 +69,8 @@ func NewAttachments(n int) *Attachments {
 	return &attachments
 }
 
-func createPostString(d nosub.Data) string {
+//CreatePostString is template
+func CreatePostString(d nosub.Data) string {
 	var ret string
 	ret = ret + "[取得日時]: " + d.Time + "\n"
 	ret = ret + "[Link]: " + d.URL + "\n"
@@ -83,7 +84,7 @@ func Post(postData string) {
 	client := &http.Client{}
 	data := url.Values{"payload": {postData}}
 	resp, err := client.Post(
-		configure.SlackConf.Token,
+		configure.IncomingSlackConf.Token,
 		"application/x-www-form-urlencoded",
 		strings.NewReader(data.Encode()),
 	)
