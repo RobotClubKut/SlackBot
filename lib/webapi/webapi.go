@@ -58,13 +58,16 @@ func deny(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		postText += "\"}"
+		if len(words) == 0 {
+			postText = "{\"text\":\"nilぱすー\"}"
+		}
 		fmt.Fprintf(w, postText)
 	} else {
 		if configure.OutgoingSlackConf.UserName == userName {
 
 		} else {
-			postText := "{\"text\":\"nilぱすー\"}"
-			fmt.Fprintf(w, postText)
+			//postText := "{\"text\":\"nilぱすー\"}"
+			//fmt.Fprintf(w, postText)
 		}
 	}
 }
