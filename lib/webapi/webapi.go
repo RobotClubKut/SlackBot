@@ -46,21 +46,24 @@ func deny(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		words = bufStrings
+		postText := ""
 
-		fmt.Println("words:", words)
-		mysql.InsertDenyWord(words)
-		//postText := "{\"text\":\"" +  + ""\"}"
-		postText := "{\"text\":\""
-		for _, w := range words {
-			if w != "" {
-				postText += w
-				postText += ","
-			}
-		}
-		postText += "\"}"
 		if len(words) == 0 {
 			postText = "{\"text\":\"nilぱすー\"}"
+		} else {
+			fmt.Println("words:", words)
+			mysql.InsertDenyWord(words)
+			//postText := "{\"text\":\"" +  + ""\"}"
+			postText = "{\"text\":\""
+			for _, w := range words {
+				if w != "" {
+					postText += w
+					postText += ","
+				}
+			}
+			postText += "\"}"
 		}
+
 		fmt.Fprintf(w, postText)
 	} else {
 		if configure.OutgoingSlackConf.UserName == userName {
