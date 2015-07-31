@@ -13,6 +13,7 @@ import (
 type Configure struct {
 	CB        CouchBase `json:"couchbase_configure"`
 	MysqlConf Mysql     `json:"mysql_configure"`
+	SlackConf Slack     `json:"slack_configure"`
 }
 
 // CouchBase setting
@@ -34,12 +35,23 @@ type Mysql struct {
 	Password   string `json:"password"`
 }
 
+//Slack setting
+type Slack struct {
+	Token    string `json:"token"`
+	UserName string `json:"user_name"`
+}
+
 // NewCoufigure is init configure
 func NewCoufigure() *Configure {
 	return &Configure{
 		CB:        *newCouchBase("localhost", 8091, "", "", "", ""),
 		MysqlConf: *newMysql("localhost", "3306", "", "", ""),
+		SlackConf: *newSlack("", "slackbot"),
 	}
+}
+
+func newSlack(token string, userName string) *Slack {
+	return &Slack{Token: token, UserName: userName}
 }
 
 func newMysql(

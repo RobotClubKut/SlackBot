@@ -13,5 +13,9 @@
         "db_name": "",
         "user_name": "",
         "password": ""
+    },
+    "slack_configure": {
+        "token": "",
+        "user_name": "slackbot"
     }
 }

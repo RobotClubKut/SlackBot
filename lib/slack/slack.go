@@ -1,6 +1,15 @@
-package bot
+package slack
 
-import "github.com/RobotClubKut/SlackBot/lib/nosub"
+import (
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
+
+	"github.com/RobotClubKut/SlackBot/lib/conf"
+	"github.com/RobotClubKut/SlackBot/lib/log"
+	"github.com/RobotClubKut/SlackBot/lib/nosub"
+)
 
 //slackの投稿とかの制御関係
 
@@ -68,6 +77,17 @@ func createPostString(d nosub.Data) string {
 	return ret
 }
 
-func CreateUpdateInformation() {
-
+//Post Slack
+func Post(postData string) {
+	configure := conf.ReadConfigure()
+	client := &http.Client{}
+	data := url.Values{"payload": {postData}}
+	resp, err := client.Post(
+		configure.SlackConf.Token,
+		"application/x-www-form-urlencoded",
+		strings.NewReader(data.Encode()),
+	)
+	log.WriteErrorLog(err)
+	ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
 }

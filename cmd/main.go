@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 
-	"github.com/RobotClubKut/SlackBot/lib/mysql"
+	"github.com/RobotClubKut/SlackBot/lib/slack"
 )
 
 func main() {
@@ -22,5 +22,9 @@ func main() {
 	//word = append(word, "にゃんぱす")
 	//mysql.InsertDenyWord(word)
 
-	fmt.Println(mysql.GetAnimeMostNewAnime())
+	//fmt.Println(mysql.GetAnimeMostNewAnime())
+	a := slack.NewAttachments(1)
+	a.Attachments[0].Text = "test"
+	js, _ := json.Marshal(a)
+	slack.Post(string(js))
 }
