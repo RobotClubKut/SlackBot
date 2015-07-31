@@ -20,6 +20,7 @@ func deny(w http.ResponseWriter, r *http.Request) {
 	text := r.PostFormValue("text")
 	token := r.PostFormValue("token")
 	userName := r.PostFormValue("user_name")
+	fmt.Println(userName)
 	if strings.Contains(text, "deny:") && configure.OutgoingSlackConf.Token == token && configure.OutgoingSlackConf.UserName == userName {
 		fmt.Println("catch")
 		text = strings.Replace(text, "deny:", "", 0)
