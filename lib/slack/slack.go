@@ -1,6 +1,7 @@
 package slack
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -91,4 +92,16 @@ func Post(postData string) {
 	log.WriteErrorLog(err)
 	ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
+}
+
+func PostAnimeInfomation(data []nosub.Data) {
+	attachments := NewAttachments(len(data))
+	for i, d := range data {
+		attachments.Attachments[i].Text = CreatePostString(d)
+		attachments.Attachments[i].AuthorName = d.Title
+		attachments.Attachments[i].ImageUrl = d.ImageURL
+	}
+	js, err := json.Marshal(attachments)
+	log.WriteErrorLog(err)
+	Post(string(js))
 }

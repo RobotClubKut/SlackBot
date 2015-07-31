@@ -11,14 +11,16 @@ import (
 )
 
 //InsertNoSubData is insert Nosub data
-func InsertNoSubData(data []nosub.Data) {
-	data = func() []nosub.Data {
-		s := data
-		for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-			s[i], s[j] = s[j], s[i]
-		}
-		return s
-	}()
+func InsertNoSubData(in []nosub.Data) {
+	/*
+		data := func() []nosub.Data {
+			s := in
+			for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+				s[i], s[j] = s[j], s[i]
+			}
+			return s
+		}()*/
+	data := in
 	configure := conf.ReadConfigure()
 	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
 	db, err := sql.Open("mysql", server)
@@ -40,9 +42,9 @@ func InsertNoSubData(data []nosub.Data) {
 }
 
 //InsertNoSubBufData is insert Nosub data
-func InsertNoSubBufData(data []nosub.Data) {
-	data = func() []nosub.Data {
-		s := data
+func InsertNoSubBufData(in []nosub.Data) {
+	data := func() []nosub.Data {
+		s := in
 		for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
 			s[i], s[j] = s[j], s[i]
 		}
@@ -224,6 +226,7 @@ func CreatePostNoSubData() []nosub.Data {
 		}
 		ret = append(ret, buf)
 	}
+
 	InsertNoSubData(noSubUpdate)
 	eraseNoSubBufData()
 

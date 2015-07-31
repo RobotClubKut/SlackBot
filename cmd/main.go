@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/RobotClubKut/SlackBot/lib/mysql"
+	"github.com/RobotClubKut/SlackBot/lib/slack"
 )
 
 func main() {
@@ -29,7 +28,10 @@ func main() {
 	//slack.Post(string(js))
 	//mysql.InsertNoSubBufData(noSub)
 	//fmt.Println(mysql.DiffNoSubData("[720p]だんちがい 第04話 「四号棟 カレーライス」"))
-	for _, d := range mysql.CreatePostNoSubData() {
-		fmt.Println(d)
-	}
+	/*
+		for _, d := range mysql.CreatePostNoSubData() {
+			fmt.Println(d)
+		}
+	*/
+	slack.PostAnimeInfomation(mysql.CreatePostNoSubData())
 }
