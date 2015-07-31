@@ -11,6 +11,14 @@ CREATE TABLE nosub_deny_word (
     Word TEXT
 );
 
+CREATE TABLE nosub_new_buf (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Title TEXT,
+    URL TEXT,
+    ImageURL TEXT,
+    Time TEXT
+)
+
 select *
     FROM nosub_new
         WHERE Title LIKE (IN (SELECT Word From nosub_deny_word));

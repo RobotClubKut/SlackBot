@@ -38,6 +38,61 @@ func InsertNoSubData(data []nosub.Data) {
 	log.Terminate(err)
 }
 
+//InsertNoSubBufData is insert Nosub data
+func InsertNoSubBufData(data []nosub.Data) {
+	data = func() []nosub.Data {
+		s := data
+		for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+			s[i], s[j] = s[j], s[i]
+		}
+		return s
+	}()
+	configure := conf.ReadConfigure()
+	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
+	db, err := sql.Open("mysql", server)
+	log.Terminate(err)
+	defer db.Close()
+	sqlStr := "INSERT INTO nosub_new_buf (Title, URL, ImageURL, Time)VALUES"
+	values := []interface{}{}
+
+	for _, row := range data {
+		sqlStr += "(?, ?, ?, ?), "
+		values = append(values, row.Title, row.URL, row.ImageURL, row.Time)
+	}
+
+	//fmt.Println(values)
+	sqlStr = sqlStr[0 : len(sqlStr)-2]
+	stmt, _ := db.Prepare(sqlStr)
+	_, err = stmt.Exec(values...)
+	log.Terminate(err)
+}
+
+// DiffNoSubData 前回の最後の更新の動画のIdを取得
+func DiffNoSubData(title string) int {
+	configure := conf.ReadConfigure()
+	server := configure.MysqlConf.UserName + ":" + configure.MysqlConf.Password + "@/" + configure.MysqlConf.DBName
+	db, err := sql.Open("mysql", server)
+	log.Terminate(err)
+	defer db.Close()
+
+	sqlStr := "SELECT ID FROM nosub_new_buf WHERE Title='" + title + "'"
+
+	rows, err := db.Query(sqlStr)
+	log.WriteErrorLog(err)
+
+	return func() int {
+		for rows.Next() {
+			var ret int
+			if err := rows.Scan(&ret); err != nil {
+				log.WriteErrorLog(err)
+				return -1
+			}
+			return ret
+		}
+		return -1
+	}()
+}
+
 //GetAnimeMostNewAnime DBにある一番IDが大きいやつを取得
 func GetAnimeMostNewAnime() string {
 	configure := conf.ReadConfigure()

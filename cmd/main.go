@@ -1,9 +1,9 @@
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 
-	"github.com/RobotClubKut/SlackBot/lib/slack"
+	"github.com/RobotClubKut/SlackBot/lib/mysql"
 )
 
 func main() {
@@ -23,8 +23,10 @@ func main() {
 	//mysql.InsertDenyWord(word)
 
 	//fmt.Println(mysql.GetAnimeMostNewAnime())
-	a := slack.NewAttachments(1)
-	a.Attachments[0].Text = "test"
-	js, _ := json.Marshal(a)
-	slack.Post(string(js))
+	//a := slack.NewAttachments(1)
+	//a.Attachments[0].Text = "test"
+	//js, _ := json.Marshal(a)
+	//slack.Post(string(js))
+	//mysql.InsertNoSubBufData(noSub)
+	fmt.Println(mysql.DiffNoSubData("[720p]だんちがい 第04話 「四号棟 カレーライス」"))
 }
